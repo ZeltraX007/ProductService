@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: productdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: redis_cache
+    restart: always
+    ports:
+      - "6379:6379"
+
+  product:
+    image: zeltrax007/pax:product_v0.0.0a
+    container_name: product_server
+    ports:
+      - "8000:8000"
+    environment:
+      - TZ=Asia/Kolkata
+      - DEBIAN_FRONTEND=noninteractive
+      - CONFIG_PATH=/sso/.env
+    volumes:
+      - "./:/sso/"
+volumes:
+  postgres_data:
