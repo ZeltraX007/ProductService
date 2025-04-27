@@ -1,5 +1,9 @@
 package main
 
-func main() {
+import (
+	"ProductService/app"
+)
 
+func main() {
+	app.Start()
 }
